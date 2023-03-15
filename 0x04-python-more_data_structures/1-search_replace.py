@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-def search_replace(my_list, search, replace):
-    new_list = []
+def uniq_add(my_list=[]):
+    unique_integers = set()
     for element in my_list:
-        if element == search:
-            new_list.append(replace)
-        else:
-            new_list.append(element)
-    return new_list
+        if isinstance(element, int):
+            if element not in unique_integers:
+                unique_integers.add(element)
+    return sum(unique_integers)
 
