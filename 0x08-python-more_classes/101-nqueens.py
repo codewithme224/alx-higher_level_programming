@@ -1,67 +1,68 @@
+#!/usr/bin/python3
+"""Module for N queens puzzle"""
+
+
 import sys
 
-def nqueens(n):
-    # Check that n is a valid input
-    try:
-        n = int(n)
-    except ValueError:
-        print("N must be a number")
-        sys.exit(1)
-        
-    if n < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-        
-    # Initialize an empty board
-    board = [['.' for _ in range(n)] for _ in range(n)]
-    
-    # Recursive function to place queens on the board
-    def place_queen(row):
-        # If all rows have been filled, print the solution
-        if row == n:
-            for i in range(n):
-                print(' '.join(board[i]))
-            print()
-            return
-        
-        # Check each column in the current row to see if a queen can be placed
-        for col in range(n):
-            if is_valid_placement(board, row, col):
-                # Place the queen on the board
-                board[row][col] = 'Q'
-                # Call the function recursively with the next row
-                place_queen(row + 1)
-                # Remove the queen from the board to backtrack
-                board[row][col] = '.'
-    
-    # Function to check if a queen can be placed at a given position
-    def is_valid_placement(board, row, col):
-        # Check the column
-        for i in range(row):
-            if board[i][col] == 'Q':
-                return False
-        
-        # Check the diagonal
-        for i, j in zip(range(row-1, -1, -1), range(col-1, -1, -1)):
-            if board[i][j] == 'Q':
-                return False
-        
-        # Check the other diagonal
-        for i, j in zip(range(row-1, -1, -1), range(col+1, n)):
-            if board[i][j] == 'Q':
-                return False
-        
-        return True
-    
-    # Start the recursive function at the first row
-    place_queen(0)
-    
-    
-if __name__ == '__main__':
-    # Check that the program was called with the correct number of arguments
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
-    
-    nqueens(sys.argv[1])
 
+def exit_with_error_message(message="", code=1):
+    """Prints an error message to stdout and exits
+    the program with the given code.
+
+    Args:
+        message (str): The error message to print.
+        code (int): The exit code to use.
+    """
+    print(message)
+    exit(code)
+
+
+def is_valid_position(board, y):
+    """Checks if a queen can be placed at the current
+    position on the board.
+
+    Args:
+        board (list): The chessboard.
+        y (int): The height parameter.
+
+    Returns:
+        bool: True if a queen can be placed at the
+        current position, False otherwise.
+    """
+    for i in range(y):
+        if board[y][1] == board[i][1] or \
+           abs(board[y][1] - board[i][1]) == y - i:
+            return False
+    return True
+
+
+def backtrack_queen_placements(board, y):
+    """Recursively finds all possible ways to place
+    N queens on an NxN chessboard.
+
+    Args:
+        board (list): The chessboard.
+        y (int): The height parameter.
+    """
+    if y == N:
+        print(board)
+    else:
+        for x in range(N):
+            board[y][1] = x
+            if is_valid_position(board, y):
+                backtrack_queen_placements(board, y + 1)
+
+
+if len(sys.argv) != 2:
+    exit_with_error_message("Usage: nqueens N")
+
+try:
+    N = int(sys.argv[1])
+except ValueError:
+    exit_with_error_message("N must be a number")
+
+if N < 4:
+    exit_with_error_message("N must be at least 4")
+
+board = [[y, 0] for y in range(N)]
+backtrack_queen_placements(board, 0)
