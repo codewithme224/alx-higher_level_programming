@@ -19,8 +19,8 @@ if path.exists(filename):
     my_list = load_from_json_file(filename)
 
 # Add all arguments to the list
-for arg in sys.argv[1:]:
-    my_list.append(arg)
+for arg in range(1, len(sys.argv)):
+    my_list.append(sys.argv[arg])
 
 # Save the updated list to the file
 save_to_json_file(my_list, filename)
