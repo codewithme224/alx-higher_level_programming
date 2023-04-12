@@ -13,9 +13,12 @@ if __name__ == "__main__":
         __import__('6-load_from_json_file').load_from_json_file
 
 filename = "add_item.json"
-if path.exists(filename):
+if os.path.exists(filename):
     my_list = load_from_json_file(filename)
 else:
     my_list = []
-my_list.extend(sys.argv[1:])
+
+for i in argv[1:]:
+    my_list.append(i)
+
 save_to_json_file(my_list, filename)
