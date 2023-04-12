@@ -4,7 +4,7 @@
 
 import sys
 import json
-import os.path
+from os import path
 from sys import argv
 
 
@@ -15,7 +15,7 @@ load_from_json_file = \
 filename = "add_item.json"
 my_list = []
 
-if os.path.exists(filename):
+if path.exists(filename):
     my_list = load_from_json_file(filename)
 
 for i in argv[1:]:
