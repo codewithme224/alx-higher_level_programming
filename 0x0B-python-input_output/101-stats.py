@@ -1,37 +1,47 @@
 #!/usr/bin/python3
 """Module for stdin metrics"""
+
+
 import sys
+import signal
 
-if __name__ == "__main__":
-    size = [0]
-    codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
+# Define a dictionary to store the file size and status code counts
+file_sizes = []
+status_counts = {}
 
-    def check_match(line):
-        '''Checks for regexp match in line.'''
-        try:
-            line = line[:-1]
-            words = line.split(" ")
-            size[0] += int(words[-1])
-            code = int(words[-2])
-            if code in codes:
-                codes[code] += 1
-        except ValueError:
-            pass
+# Define a signal handler to catch keyboard interrupts
+def signal_handler(sig, frame):
+    print_statistics()
+    sys.exit(0)
 
-    def print_stats():
-        '''Prints accumulated statistics.'''
-        print("File size: {}".format(size[0]))
-        for k in sorted(codes.keys()):
-            if codes[k]:
-                print("{}: {}".format(k, codes[k]))
-    i = 1
-    try:
-        for line in sys.stdin:
-            check_match(line)
-            if i % 10 == 0:
-                print_stats()
-            i += 1
-    except KeyboardInterrupt:
-        print_stats()
-        raise
-    print_stats()
+# Define a function to print the statistics
+def print_statistics():
+    total_size = sum(file_sizes)
+    print(f'Total file size: {total_size}')
+    for code in sorted(status_counts.keys()):
+        print(f'{code}: {status_counts[code]}')
+
+# Register the signal handler for keyboard interrupts
+signal.signal(signal.SIGINT, signal_handler)
+
+# Read input from stdin line by line
+for line_number, line in enumerate(sys.stdin, start=1):
+    # Parse the input line
+    ip, _, _, status_code, file_size = line.split()
+
+    # Update the file size count
+    file_sizes.append(int(file_size))
+
+    # Update the status code count
+    if status_code in status_counts:
+        status_counts[status_code] += 1
+    else:
+        status_counts[status_code] = 1
+
+    # Print the statistics every 10 lines
+    if line_number % 10 == 0:
+        print_statistics()
+
+# Print the final statistics
+print_statistics()
+
