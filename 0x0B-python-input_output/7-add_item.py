@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-"""
-7-add_item module
-"""
+"""Module for add_item method"""
+
 import sys
 import json
 import os.path
