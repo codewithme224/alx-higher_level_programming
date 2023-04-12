@@ -3,45 +3,49 @@
 
 
 import sys
-import signal
 
-# Define a dictionary to store the file size and status code counts
-file_sizes = []
-status_counts = {}
 
-# Define a signal handler to catch keyboard interrupts
-def signal_handler(sig, frame):
-    print_statistics()
-    sys.exit(0)
+def print_stats(size, status_codes):
+    """Print accumulated metrics.
+    Args:
+        size (int): The accumulated read file size.
+        status_codes (dict): The accumulated count of status codes.
+    """
+    print("File size: {}".format(size))
+    for key in sorted(status_codes):
+        print("{}: {}".format(key, status_codes[key]))
 
-# Define a function to print the statistics
-def print_statistics():
-    total_size = sum(file_sizes)
-    print(f'Total file size: {total_size}')
-    for code in sorted(status_counts.keys()):
-        print(f'{code}: {status_counts[code]}')
 
-# Register the signal handler for keyboard interrupts
-signal.signal(signal.SIGINT, signal_handler)
+if __name__ == "__main__":
 
-# Read input from stdin line by line
-for line_number, line in enumerate(sys.stdin, start=1):
-    # Parse the input line
-    ip, _, _, status_code, file_size = line.split()
+    size = 0
+    status_codes = {}
+    valid_codes = ['200', '301', '400', '401', '403', '404', '405', '500']
+    count = 0
 
-    # Update the file size count
-    file_sizes.append(int(file_size))
+    try:
+        for line in sys.stdin:
+            if count == 10:
+                print_stats(size, status_codes)
+                count = 1
+            else:
+                count += 1
+            line = line.split()
+            try:
+                size += int(line[-1])
+            except (IndexError, ValueError):
+                pass
+            try:
+                if line[-2] in valid_codes:
+                    if status_codes.get(line[-2], -1) == -1:
+                        status_codes[line[-2]] = 1
+                    else:
+                        status_codes[line[-2]] += 1
+            except IndexError:
+                pass
 
-    # Update the status code count
-    if status_code in status_counts:
-        status_counts[status_code] += 1
-    else:
-        status_counts[status_code] = 1
+        print_stats(size, status_codes)
 
-    # Print the statistics every 10 lines
-    if line_number % 10 == 0:
-        print_statistics()
-
-# Print the final statistics
-print_statistics()
-
+    except KeyboardInterrupt:
+        print_stats(size, status_codes)
+        raise
