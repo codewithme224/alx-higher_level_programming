@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 """Module for stdin metrics"""
-
-
 import sys
 
 
