@@ -20,7 +20,7 @@ if __name__ == "__main__":
             try:
                 size += int(line.split()[-1])
                 status_codes[line.split()[-2]] += 1
-            except ValueError:
+            except (IndexError, ValueError):
                 pass
     except KeyboardInterrupt:
         print("File size: {}".format(size))
