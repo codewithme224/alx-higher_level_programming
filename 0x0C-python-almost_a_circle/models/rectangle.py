@@ -100,3 +100,13 @@ class Rectangle(Base):
         if len(args) == 0:
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+    def to_dictionary(self):
+        """ to_dictionary method """
+        lists = ['id', 'width', 'height', 'x', 'y']
+        dicts = {}
+
+        for key in lists:
+            dicts[key] = getattr(self, key)
+
+        return dicts
