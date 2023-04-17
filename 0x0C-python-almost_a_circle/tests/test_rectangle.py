@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+""" Test for the rectangle class """
 from contextlib import redirect_stdout
 import unittest
 from models.rectangle import Rectangle

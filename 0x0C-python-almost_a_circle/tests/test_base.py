@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" Test for base class """
 import os
 import unittest
 from models.base import Base
