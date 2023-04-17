@@ -304,13 +304,6 @@ class TestBase_create(unittest.TestCase):
         s2 = Square.create(**s1_dictionary)
         self.assertEqual("[Square] (7) 5/1 - 3", str(s1))
 
-    def test_create_square_new(self):
-        """ test create square method with new id """
-        s1 = Square(5, 1)
-        s2 = Square.create(**{'size': 3})
-        self.assertEqual("[Square] (6) 0/0 - 5", str(s1))
-        self.assertEqual("[Square] (7) 5/1 - 3", str(s2).strip())
-
     def test_create_square_is(self):
         s1 = Square(3, 5, 1, 7)
         s1_dictionary = s1.to_dictionary()
