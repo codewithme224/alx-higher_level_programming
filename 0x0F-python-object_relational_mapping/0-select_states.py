@@ -2,29 +2,23 @@
 """Module to list all states from database hbtn_0e_0_usa"""
 
 
-def main():
-    """main function"""
+import sys
+import MySQLdb
 
-    import MySQLdb
-    from sys import argv
+if __name__ == "__main__":
+    """Connect to MySQL database"""
+    db = MySQLdb.connect(
+            host="localhost",
+            user=sys.argv[1],
+            password=sys.argv[2],
+            database=sys.argv[3])
 
-    """ Open database connection """
-    db = MySQLdb.connect(host="localhost", port=3306,
-            user=argv[1], passwd=argv[2], db=argv[3], charset="utf8")
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM states")
 
-    """prepare a cursor object using cursor() method"""
-    cur = db.cursor()
-
-    """execute SQL query using execute() method."""
-    cur.execute("SELECT * FROM states ORDER BY states.id ASC")
-
-    """Fetch a single row using fetchone() method."""
-    for row in cur.fetchall():
+    rows = cursor.fetchall()
+    for row in rows:
         print(row)
 
-    """disconnect from server"""
-    cur.close()
+    cursor.close()
     db.close()
-
-    if __name__ == "__main__":
-        main()
