@@ -19,7 +19,7 @@ if __name__ == "__main__":
     cur.execute(
             "SELECT * FROM `states` WHERE `name` LIKE %s ORDER BY id ASC",
             (sys.argv[4],))
-    rows = cur.fetchall()
+    rows = cursor.fetchall()
     for row in rows:
         print(row)
 
