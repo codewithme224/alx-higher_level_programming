@@ -8,10 +8,15 @@ import MySQLdb
 if __name__ == "__main__":
     """Connect to MySQL database"""
     db = MySQLdb.connect(
+            port=3306,
+            host="localhost",
             user=sys.argv[1],
             password=sys.argv[2],
             database=sys.argv[3])
 
     cur = db.cursor()
-    cur.execute("SELECT * FROM `states` ORDER BY `id`")
-    [print(state) for state in cur.fetchall() if state[1] == sys.argv[4]]
+    cur.execute("SELECT * FROM `states` WHERE `name` = '{}'".format(sys.argv[4]))
+    [print(state) for state in cur.fetchall()]
+
+    cur.close()
+    db.close()
