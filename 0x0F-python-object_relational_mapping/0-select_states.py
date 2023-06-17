@@ -13,12 +13,6 @@ if __name__ == "__main__":
             password=sys.argv[2],
             database=sys.argv[3])
 
-    cursor = db.cursor()
-    cursor.execute("SELECT * FROM states")
-
-    rows = cursor.fetchall()
-    for row in rows:
-        print(row)
-
-    cursor.close()
-    db.close()
+    cur = db.cursor()
+    cur.execute("SELECT * FROM `states`")
+    [print(state) for state in cur.fetchall()]
