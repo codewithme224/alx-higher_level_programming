@@ -14,6 +14,7 @@ if __name__ == "__main__":
         sys.argv[1], sys.argv[2], sys.argv[3]))
 
     Session = sessionmaker(bind=engine)
+    Base.metadata.create_all(engine)
     session = Session()
 
     try:
