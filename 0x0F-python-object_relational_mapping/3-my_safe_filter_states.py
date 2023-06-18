@@ -2,7 +2,7 @@
 """Module to list all states from database hbtn_0e_0_usa"""
 
 
-import sys
+from sys import argv
 import MySQLdb
 
 if __name__ == "__main__":
@@ -18,8 +18,8 @@ if __name__ == "__main__":
     cur = db.cursor()
     cur.execute(
             "SELECT * FROM `states` WHERE `name` LIKE %s ORDER BY id ASC",
-            (sys.argv[4],))
-    rows = cursor.fetchall()
+            (argv[4],))
+    rows = cur.fetchall()
     for row in rows:
         print(row)
 
