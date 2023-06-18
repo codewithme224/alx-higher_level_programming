@@ -9,7 +9,7 @@ from sqlalchemy import Column, Integer, String
 
 Base = declarative_base()
 
-class States(Base):
+class State(Base):
     """Class State"""
     __tablename__ = 'states'
 
