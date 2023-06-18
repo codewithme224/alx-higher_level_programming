@@ -3,9 +3,7 @@
    and an instance Base = declarative_base()"""
 
 
-from sqlalchemy import String
-from sqlalchemy import Integer
-from sqlalchemy import Column
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 
