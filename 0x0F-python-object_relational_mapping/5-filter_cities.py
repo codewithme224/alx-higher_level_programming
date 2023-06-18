@@ -19,7 +19,8 @@ if __name__ == "__main__":
             INNER JOIN cities ON states.id = cities.state_id\
             WHERE states.name = %s\
             ORDER BY cities.id ASC", (sys.argv[4],))
-    rows = cursor.fetchall()
+
+    rows = cur.fetchall()
     print(", ".join([city[0] for city in rows]))
 
     cur.close()
