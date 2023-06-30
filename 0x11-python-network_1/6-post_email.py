@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Takes in a URL and an email address, sends a POST request to the passed URL"""
+"""Takes in a URL and an email address, sends a
+POST request to the passed URL"""
 
 
 if __name__ == "__main__":
