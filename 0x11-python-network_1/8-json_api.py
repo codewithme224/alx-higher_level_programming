@@ -15,10 +15,9 @@ if __name__ == "__main__":
 
     try:
         res_dict = res.json()
-        if res_dict:
-            print("[{}] {}".format(res_dict.get('id'), 
-                   res_dict.get('name')))
+        if res_dict == {}:
+            print('No result')
         else:
-            print("No result")
+            print("[{}] {}".format(res_dict.get("id"), res_dict.get("name")))
     except ValueError:
         print("Not a valid JSON")
