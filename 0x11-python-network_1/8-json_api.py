@@ -6,13 +6,12 @@ if __name__ == "__main__":
     import requests
     import sys
 
-    if len(sys.argv) == 2:
+    if len(sys.argv) > 1:
         q = sys.argv[1]
     else:
         q = ""
 
-    res = requests.post('http://0.0.0.0:5000/search_user')
-
+    res = requests.post('http://0.0.0.0:5000/search_user', data={'q': q})
     try:
         res_dict = res.json()
         if res_dict == {}:
