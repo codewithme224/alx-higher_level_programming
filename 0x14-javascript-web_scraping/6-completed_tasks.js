@@ -1,21 +1,34 @@
 #!/usr/bin/node
 
 const request = require('request');
-request(process.argv[2], function (error, response, body) {
-  if (error) {
-    console.error(error);
+
+const apiUrl = process.argv[2];
+
+request(apiUrl, (err, response, body) => {
+  if (err) {
+    console.log(err);
+    return;
   }
-  const dict = JSON.parse(body).reduce((acc, elem) => {
-    if (!acc[elem.userId]) {
-      if (elem.completed) {
-        acc[elem.userId] = 1;
-      }
-    } else {
-      if (elem.completed) {
-        acc[elem.userId] += 1;
-      }
+
+  const todos = JSON.parse(body);
+
+  const completedTasks = todos.filter((todo) => todo.completed);
+
+  const users = new Map();
+
+  completedTasks.forEach((todo) => {
+    const userId = todo.userId;
+
+    if (!users.has(userId)) {
+      users.set(userId, 0);
     }
-    return acc;
-  }, {});
-  console.log(dict);
+
+    users.set(userId, users.get(userId) + 1);
+  });
+
+  for (const [userId, numCompletedTasks] of users.entries()) {
+    if (numCompletedTasks > 0) {
+      console.log(`User ID: ${userId}, Tasks Completed: ${numCompletedTasks}`);
+    }
+  }
 });
